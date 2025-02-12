@@ -266,6 +266,10 @@
   (let ((bbox (text-bounding-box drawable font string)))
     (- (ymax bbox) (ymin bbox))))
 
+(defvar *allow-fixed-pitch-p* t
+  "Allow shortcutting fixed-pitch fonts. Somewhat faster, but breaks CJK
+in fixed-pitch fonts.")
+
 (defun text-line-bounding-box-provider (dpi-x dpi-y font string)
   (with-font-loader (loader font)
     (let* ((units->pixels-x (font-units->pixels-x dpi-x font))
@@ -276,7 +280,7 @@
            (xmax (if (> string-length 0)
                      (zpb-ttf:advance-width (zpb-ttf:find-glyph (elt string 0) loader))
                      0)))
-      (if (zpb-ttf:fixed-pitch-p loader)
+      (if (and *allow-fixed-pitch-p* (zpb-ttf:fixed-pitch-p loader))
           (setf xmax (* xmax string-length))
           (do ((i 1 (1+ i)))
               ((>= i string-length))

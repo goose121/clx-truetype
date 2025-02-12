@@ -40,5 +40,6 @@
    :font-antialias
    :font-lines-height
    :cache-fonts
-   :font-equal)
+   :font-equal
+   :*allow-fixed-pitch-p*)
   (:documentation "Package contains API for TrueType text rendering using CLX, XRender. Glyphs information is obtained by ZPB-TTF. Font rasterization is made by CL-VECTORS."))
