@@ -2,7 +2,11 @@
 
 (defvar *font-dirs* 
     #+(or unix netbsd openbsd freebsd) 
-          (list "/usr/share/fonts/" 
+          (list "/usr/share/fonts/"
+               #+(or openbsd freebsd) "/usr/local/share/fonts/"
+               #+(or openbsd freebsd) "/usr/X11R6/lib/X11/fonts"
+               #+netbsd "/usr/pkg/share/fonts"
+               #+netbsd "/usr/X11R7/lib/X11/fonts"
                #+darwin "/Library/Fonts/"
                (namestring (merge-pathnames ".fonts/" (user-homedir-pathname))))
     #+windows (list (namestring
